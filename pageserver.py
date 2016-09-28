@@ -95,7 +95,7 @@ def respond(sock):
     		transmit(STATUS_FORBIDDEN, sock)
     	elif os.path.exists(parts[1]):
         	transmit(STATUS_OK, sock)
-        	transmit(CAT, sock)	
+        	transmit(parts[1], sock)	
     	else:
     		transmit(STATUS_NOT_IMPLEMENTED, sock)        
     		transmit("\nI don't handle this request: {}\n".format(request), sock)
