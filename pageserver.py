@@ -17,6 +17,10 @@ import CONFIG    # Configuration options. Create by editing CONFIG.base.py
 import argparse  # Command line options (may override some configuration options)
 import socket    # Basic TCP/IP communication on the internet
 import _thread   # Response computation runs concurrently with main program 
+##
+## Jacob imported 
+##
+import os.path   # To test file paths in Get requests
 
 def listen(portnum):
     """
@@ -73,7 +77,8 @@ STATUS_NOT_IMPLEMENTED = "HTTP/1.0 401 Not Implemented\n\n"
 def respond(sock):
     """
     This server responds only to GET requests (not PUT, POST, or UPDATE).
-    Any valid GET request is answered with an ascii graphic of a cat. 
+    Any valid GET request it test for a valid file path then transmits the file
+    returns forbidden or page not found. 
     """
     sent = 0
     request = sock.recv(1024)  # We accept only short requests
@@ -82,8 +87,21 @@ def respond(sock):
 
     parts = request.split()
     if len(parts) > 1 and parts[0] == "GET":
-        transmit(STATUS_OK, sock)
-        transmit(CAT, sock)
+    	##
+    	## Jacob's changes
+    	## Test for forbidden path
+    	##
+    	if "//" or "~" or ".." in parts[1]
+    		transmit(STATUS_FORBIDDEN, sock)
+    	else if os.path.exists(parts[1])
+        	transmit(STATUS_OK, sock)
+        	transmit(CAT, sock)	
+    	else:
+       	 	transmit(STATUS_NOT_IMPLEMENTED, sock)        
+			transmit("\nI don't handle this request: {}\n".format(request), sock)
+        ##	
+        ## End of Jacob's changes
+        ##	
     else:
         transmit(STATUS_NOT_IMPLEMENTED, sock)        
         transmit("\nI don't handle this request: {}\n".format(request), sock)
