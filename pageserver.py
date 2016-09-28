@@ -91,14 +91,14 @@ def respond(sock):
     	## Jacob's changes
     	## Test for forbidden path
     	##
-    	if "//" or "~" or ".." in parts[1]
+    	if "//" or "~" or ".." in parts[1]:
     		transmit(STATUS_FORBIDDEN, sock)
-    	else if os.path.exists(parts[1])
+    	elif os.path.exists(parts[1]):
         	transmit(STATUS_OK, sock)
         	transmit(CAT, sock)	
     	else:
-       	 	transmit(STATUS_NOT_IMPLEMENTED, sock)        
-			transmit("\nI don't handle this request: {}\n".format(request), sock)
+    		transmit(STATUS_NOT_IMPLEMENTED, sock)        
+    		transmit("\nI don't handle this request: {}\n".format(request), sock)
         ##	
         ## End of Jacob's changes
         ##	
