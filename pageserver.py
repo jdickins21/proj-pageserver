@@ -80,7 +80,6 @@ def respond(sock):
     Any valid GET request it test for a valid file path then transmits the file
     returns forbidden or page not found. 
     """
-    sent = 0
     request = sock.recv(1024)  # We accept only short requests
     request = str(request, encoding='utf-8', errors='strict')
     print("\nRequest was {}\n".format(request))
@@ -93,12 +92,9 @@ def respond(sock):
     	##
     	if "//" or "~" or ".." in parts[1]:
     		transmit(STATUS_FORBIDDEN, sock)
-    	elif os.path.exists(parts[1]):
+    	elif os.path.exists(".pages/" + parts[1]):
         	transmit(STATUS_OK, sock)
-        	transmit(parts[1], sock)	
-    	else:
-    		transmit(STATUS_NOT_IMPLEMENTED, sock)        
-    		transmit("\nI don't handle this request: {}\n".format(request), sock)
+        	transmit(".pages/" + parts[1], sock)	
         ##	
         ## End of Jacob's changes
         ##	
