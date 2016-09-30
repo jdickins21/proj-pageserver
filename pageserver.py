@@ -93,14 +93,28 @@ def respond(sock):
     	## Jacob's changes
     	## Test for forbidden path
     	##
-    	if "//" or ".." or "~" in parts[1]:
+    	print(parts[1])
+    	if not ".html" in parts[1]:
+    		if not ".css" in parts[1]:
+    			transmit(STATUS_FORBIDDEN, sock)
+    			print("forbid")
+    	elif "//" in parts[1]:
     		transmit(STATUS_FORBIDDEN, sock)
-    	if os.path.exists(PATH + parts[1]):
+    		print("forbid")
+    	elif ".." in parts[1]:
+    		transmit(STATUS_FORBIDDEN, sock)
+    		print("forbid")
+    	elif "~" in parts[1]:
+    		transmit(STATUS_FORBIDDEN, sock)
+    		print("forbid")
+    	elif os.path.exists(PATH + parts[1]):
         	file = open(PATH + parts[1], 'r').read()
         	transmit(STATUS_OK, sock)
         	transmit(file, sock)
+        	print("good")
     	else:
         	transmit(STATUS_NOT_FOUND, sock)
+        	print("no there")
         ##	
         ## End of Jacob's changes
         ##	
