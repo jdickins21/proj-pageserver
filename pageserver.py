@@ -94,7 +94,9 @@ def respond(sock):
     		transmit(STATUS_FORBIDDEN, sock)
     	elif os.path.exists(".pages/" + parts[1]):
         	transmit(STATUS_OK, sock)
-        	transmit(".pages/" + parts[1], sock)	
+        	transmit(".pages/" + parts[1], sock)
+    	else:
+        	transmit(STATUS_NOT_FOUND, sock)
         ##	
         ## End of Jacob's changes
         ##	
