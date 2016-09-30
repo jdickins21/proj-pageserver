@@ -117,7 +117,7 @@ def transmit(msg, sock):
     while sent < len(msg):
         buff = bytes( msg[sent: ], encoding="utf-8")
         sent += sock.send( buff )
-    
+	
 
 ###
 #
