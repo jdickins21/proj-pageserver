@@ -65,6 +65,9 @@ CAT = """
    =(   )=
 """
 
+# The top most directory all files should be in
+PATH = "pages"
+
 ## HTTP response codes, as the strings we will actually send. 
 ##   See:  https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 ##   or    http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -90,11 +93,12 @@ def respond(sock):
     	## Jacob's changes
     	## Test for forbidden path
     	##
-    	if "//" or "~" or ".." in parts[1]:
+    	if "//" or ".." or "~" in parts[1]:
     		transmit(STATUS_FORBIDDEN, sock)
-    	elif os.path.exists(".pages/" + parts[1]):
+    	if os.path.exists(PATH + parts[1]):
+        	file = open(PATH + parts[1], 'r').read()
         	transmit(STATUS_OK, sock)
-        	transmit(".pages/" + parts[1], sock)
+        	transmit(file, sock)
     	else:
         	transmit(STATUS_NOT_FOUND, sock)
         ##	
